@@ -1,24 +1,60 @@
 # Student Record Management System
 
-A simple command-line application for managing student records (add, view, update, delete, search), built as a Python Essentials course project. Data is stored locally in a JSON file so records persist between runs.
+A command-line application for managing student records (add, view, update, delete, search), built as an evaluated course project. The project is organized into separate modules for data modeling, persistence, business logic, and the CLI, with a small suite of unit tests.
+
+## Overview
+
+This project lets a user manage a list of student records — each with an ID, Name, Age, Course, and Marks — entirely from the terminal. Records are saved to a local JSON file so they persist between runs.
 
 ## Features
-- Add a new student record
-- View all student records
-- Update an existing record
-- Delete a record
-- Search by ID or name
-- Data automatically saved to `students.json`
+
+- Add a new student record (with validation on ID uniqueness, age, and marks)
+- View all student records in a formatted table
+- Update an existing record (leave a field blank to keep it unchanged)
+- Delete a record (with confirmation)
+- Search by ID or partial name match
+- Automatic persistence to `students.json`
+- Unit-tested core logic (7 tests covering add/update/delete/search)
+
+## Technologies / Tools Used
+
+- Python 3 (standard library only — `json`, `os`)
+- `unittest` for testing
+- Git & GitHub for version control
+
+## Project Structure
+
+```
+.
+├── main.py                  # Entry point — run this to start the program
+├── student.py               # Data model: student record structure + validation
+├── storage.py                # Data Persistence module: load/save JSON file
+├── operations.py             # Record Management module: add/update/delete/search logic
+├── cli.py                     # CLI module: menu, input/output, user interaction
+├── tests/
+│   └── test_operations.py     # Unit tests for the operations module
+├── students.json               # Auto-generated data file (created on first run)
+├── statement.md                 # Problem statement, scope, and target users
+└── README.md                     # This file
+```
+
+### Why this structure?
+The project is split into three functional modules so each part has a single responsibility and can be tested independently:
+1. **Data Persistence** (`storage.py`) — reading/writing the JSON file
+2. **Record Management** (`operations.py`) — the actual add/update/delete/search logic, independent of any user interface
+3. **CLI** (`cli.py`) — handles all user-facing input/output and calls into the other two modules
 
 ## Requirements
-- Python 3.7 or higher (no external libraries needed — uses only the standard library)
+
+- Python 3.7 or higher
+- No external libraries needed
 
 ## Setup Instructions
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/<your-username>/<your-repo-name>.git
-   cd <your-repo-name>
+   git clone https://github.com/Vrushabha056/student-record-system.git
+   cd student-record-system
    ```
 
 2. **(Optional) Create a virtual environment**
@@ -27,7 +63,7 @@ A simple command-line application for managing student records (add, view, updat
    source venv/bin/activate      # On Windows: venv\Scripts\activate
    ```
 
-3. **No dependencies to install** — this project only uses Python's built-in `json` and `os` modules.
+3. **No dependencies to install** — the project only uses Python's standard library.
 
 ## How to Run
 
@@ -48,17 +84,18 @@ You'll see a menu like this:
 Enter choice:
 ```
 
-Enter the number corresponding to the action you want to perform, and follow the prompts.
+Enter the number corresponding to the action you want, and follow the prompts.
+
+## How to Run Tests
+
+From the project root:
+
+```bash
+python -m unittest discover -s tests
+```
+
+This runs all unit tests in `tests/test_operations.py` and reports pass/fail for each.
 
 ## Data Storage
 
-All records are saved in `students.json` in the same folder as `main.py`. This file is created automatically the first time you add a student, and updated automatically after every add/update/delete operation. Deleting `students.json` will reset the records.
-
-## Project Structure
-
-```
-.
-├── main.py          # Main program (CLI menu + all logic)
-├── students.json     # Auto-generated data file (created after first run)
-└── README.md         # This file
-```
+All records are saved in `students.json` in the project root. This file is created automatically the first time you add a student and updated after every add/update/delete. Deleting `students.json` resets the records.
